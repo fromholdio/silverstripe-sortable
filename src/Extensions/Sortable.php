@@ -21,12 +21,20 @@ class Sortable extends DataExtension
 
     public function onBeforeWrite()
     {
-        if (!$this->getOwner()->Sort) {
-            if ($this->getOwner()->hasMethod('getSortableScope')) {
-                $scope = $this->getOwner()->getSortableScope();
-                if (is_a($scope, DataList::class)) {
-                    $this->getOwner()->Sort = $scope->max('Sort') + 1;
+        if (!$this->getOwner()->Sort)
+        {
+            $scope = $this->getOwner()->hasMethod('getSortableScope')
+                ? $this->getOwner()->getSortableScope()
+                : get_class($this->getOwner())::get();
+
+            if (is_a($scope, DataList::class) && $scope->count() > 0) {
+                if ($this->getOwner()->isInDB()) {
+                    $scope = $scope->exclude('ID', $this->getOwner()->ID);
                 }
+                $this->getOwner()->Sort = $scope->max('Sort') + 1;
+            }
+            else {
+                $this->getOwner()->Sort = 1;
             }
         }
     }
