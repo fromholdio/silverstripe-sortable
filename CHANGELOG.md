@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0]
+
+* Allow use of a sort field other than 'Sort' via yml/config, and add extension hook to override a specific instance.
+
 ## [2.0.0]
 
 * Add fallback for owner class without getSortableScope defined
