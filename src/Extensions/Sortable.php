@@ -6,6 +6,12 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataList;
 
+/**
+ * Assumes sort field is named 'Sort' and so creates the db field,
+ * and applies a default_sort from this. You can use $sortable_field_name
+ * to set a different sort field, but you will need to create the db field
+ * and override the $default_sort.
+ */
 class Sortable extends DataExtension
 {
     private static $db = [
@@ -14,6 +20,8 @@ class Sortable extends DataExtension
 
     private static $default_sort = 'Sort';
 
+    private static $sortable_field_name = 'Sort';
+
     public function updateCMSFields(FieldList $fields)
     {
         $fields->removeByName('Sort');
@@ -21,7 +29,8 @@ class Sortable extends DataExtension
 
     public function onBeforeWrite()
     {
-        if (!$this->getOwner()->Sort)
+        $fieldName = $this->getOwner()->getSortableFieldName();
+        if (!$this->getOwner()->{$fieldName})
         {
             $scope = $this->getOwner()->hasMethod('getSortableScope')
                 ? $this->getOwner()->getSortableScope()
@@ -31,11 +40,18 @@ class Sortable extends DataExtension
                 if ($this->getOwner()->isInDB()) {
                     $scope = $scope->exclude('ID', $this->getOwner()->ID);
                 }
-                $this->getOwner()->Sort = $scope->max('Sort') + 1;
+                $this->getOwner()->{$fieldName} = $scope->max($fieldName) + 1;
             }
             else {
-                $this->getOwner()->Sort = 1;
+                $this->getOwner()->{$fieldName} = 1;
             }
         }
+    }
+
+    public function getSortableFieldName(): string
+    {
+        $fieldName = $this->getOwner()->config()->get('sortable_field_name');
+        $this->getOwner()->invokeWithExtensions('updateSortableFieldName', $fieldName);
+        return $fieldName;
     }
 }
