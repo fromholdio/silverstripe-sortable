@@ -40,7 +40,7 @@ class Sortable extends DataExtension
                 if ($this->getOwner()->isInDB()) {
                     $scope = $scope->exclude('ID', $this->getOwner()->ID);
                 }
-                $this->getOwner()->{$fieldName} = $scope->max($fieldName) + 1;
+                $this->getOwner()->{$fieldName} = ($scope->max($fieldName) + 1);
             }
             else {
                 $this->getOwner()->{$fieldName} = 1;
