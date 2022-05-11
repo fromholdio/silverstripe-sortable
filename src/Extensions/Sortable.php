@@ -22,12 +22,12 @@ class Sortable extends DataExtension
 
     private static $sortable_field_name = 'Sort';
 
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields): void
     {
         $fields->removeByName('Sort');
     }
 
-    public function onBeforeWrite()
+    public function onBeforeWrite(): void
     {
         $fieldName = $this->getOwner()->getSortableFieldName();
         if (!$this->getOwner()->{$fieldName})
