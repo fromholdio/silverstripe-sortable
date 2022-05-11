@@ -9,6 +9,12 @@ That is, it does the basic lifting of:
 * Sets the `$default_sort` of your object to `'Sort'`
 * Manages setting a `Sort` value of the maximum + 1 upon first write, within a scope you define
 
+## Versioning
+
+Though a bit of bungling, v1.1.1 and v2.1.1 are equal. For clarity, moving forward only 2.x will receive any necessary patches/fixes.
+
+Return types have been added, and a new major version track has been established as v3.x. As such this will require PHP >=7.0, is now the primary track, and will receive any enhancements/features in future.
+
 ## Requirements
 
 SilverStripe 4
@@ -23,9 +29,11 @@ It's all plug-n-play once you apply the extension to your data object - with one
 
 To allow the extension to auto-generate a default value, based on maximum + 1, you need to tell the extension what the scope of the group you're getting that maximum value from is.
 
-So, on the object you are extending/applying `Sortable` to, you must add a `getSortableScope()` method.
+So, on the object you are extending/applying `Sortable` to, you can add a `getSortableScope()` method. This method should return a `DataList` on which sortable will run `->max('Sort')` on.
 
-This method should return a `DataList` on which sortable will run `->max('Sort')` on. See below for example.
+In the absence of a `getSortableScope()` method, as a fallback the extension will get all objects of this type, excluding the current object, and run `->max('Sort')` on this list.
+
+See below for example.
 
 
 ## Usage example
@@ -42,6 +50,7 @@ class Widget extends DataObject
     
     public function getSortableScope()
     {
+        # this is the default behaviour
         return self::get()->exclude('ID', $this->ID);
     }
 }
