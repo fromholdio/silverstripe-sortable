@@ -17,7 +17,7 @@ Return types have been added, and a new major version track has been established
 
 ## Requirements
 
-SilverStripe 4
+SilverStripe 4 or 5
 
 ## Installation
 
