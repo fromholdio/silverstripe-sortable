@@ -11,7 +11,7 @@ That is, it does the basic lifting of:
 
 ## Versioning
 
-Though a bit of bungling, v1.1.1 and v2.1.1 are equal. For clarity, moving forward only 2.x will receive any necessary patches/fixes.
+Through a bit of bungling, v1.1.1 and v2.1.1 are equal. For clarity, moving forward only 2.x will receive any necessary patches/fixes.
 
 Return types have been added, and a new major version track has been established as v3.x. As such this will require PHP >=7.0, is now the primary track, and will receive any enhancements/features in future.
 
