@@ -2,8 +2,8 @@
 
 namespace Fromholdio\Sortable\Extensions;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataList;
 
 /**
@@ -12,7 +12,7 @@ use SilverStripe\ORM\DataList;
  * to set a different sort field, but you will need to create the db field
  * and override the $default_sort.
  */
-class Sortable extends DataExtension
+class Sortable extends Extension
 {
     private static $db = [
         'Sort'      =>  'Int'
